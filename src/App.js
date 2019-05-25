@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import { Main, TabBar } from '@aragon/ui'
+import PartyList from './components/PartyList'
+import CreateParty from './components/CreateParty'
+import CreateProgram from './components/CreateProgram'
 import getWeb3 from "./utils/getWeb3";
+import Web3 from 'web3'
 
 import "./App.css";
 
@@ -16,8 +21,9 @@ class App extends Component {
       const accounts = await web3.eth.getAccounts();
 
       // Get the contract instance.
-      const networkId = 5777; //await web3.eth.net.getId();
+      const networkId = await web3.eth.net.getId();
       const deployedNetwork = SimpleStorageContract.networks[networkId];
+      console.log(deployedNetwork)
       const instance = new web3.eth.Contract(
         SimpleStorageContract.abi,
         deployedNetwork && deployedNetwork.address,
@@ -35,14 +41,33 @@ class App extends Component {
     }
   };
 
+  setSelected = selectedTab => {
+    this.setState({ selected: selectedTab })
+  }
+
+  selectPage = pageNumber => {
+    if (pageNumber === 0) {
+      return <PartyList />
+    } else if (pageNumber === 1) {
+      return <CreateParty />
+    } else if (pageNumber === 2) {
+      return <CreateProgram />
+    }
+}
   runExample = async () => {
     const { accounts, contract } = this.state;
 
+    // Get the value from the contract to prove it worked.
+    let response = await contract.methods.get().call();
+
+    // Update state with the result.
+    this.setState({ storageValue: response.toString() });
+
     // // Stores a given value, 5 by default.
-    await contract.methods.set(5).send({ from: accounts[0] });
+    let promise = await contract.methods.set(parseInt(response) + 1).send({ from: accounts[0] });
 
     // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
+    response = await contract.methods.get().call();
 
     // Update state with the result.
     this.setState({ storageValue: response.toString() });
