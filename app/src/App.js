@@ -1,52 +1,35 @@
-import React from 'react'
-import { useAragonApi } from '@aragon/api-react'
-import { Main, Button } from '@aragon/ui'
-import styled from 'styled-components'
+import React, { useState } from 'react'
+// import { useAragonApi } from '@aragon/api-react'
+import { Main, TabBar } from '@aragon/ui'
+import PartyList from './components/PartyList'
+import CreateParty from './components/CreateParty'
+import CreateProgram from './components/CreateProgram'
 
 function App() {
-  const { api, appState } = useAragonApi()
-  const { count, syncing } = appState
+  // const { api, appState } = useAragonApi()
+  // const { count, syncing } = appState
+  const [selected, setSelected] = useState(0)
+
+  const renderSelectedPage = pageNumber => {
+    if (pageNumber === 0) {
+      return <PartyList />
+    } else if (pageNumber === 1) {
+      return <CreateParty />
+    } else if (pageNumber === 2) {
+      return <CreateProgram />
+    }
+  }
+
   return (
     <Main>
-      <BaseLayout>
-        {syncing && <Syncing />}
-        <Count>Count: {count}</Count>
-        <Buttons>
-          <Button mode="secondary" onClick={() => api.decrement(1)}>
-            Decrement
-          </Button>
-          <Button mode="secondary" onClick={() => api.increment(1)}>
-            Increment
-          </Button>
-        </Buttons>
-      </BaseLayout>
+      <TabBar
+        items={['Parties', 'Create Party', 'CreateProgram']}
+        selected={selected}
+        onChange={setSelected}
+      />
+      {renderSelectedPage(selected)}
     </Main>
   )
 }
-
-const BaseLayout = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  flex-direction: column;
-`
-
-const Count = styled.h1`
-  font-size: 30px;
-`
-
-const Buttons = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  grid-gap: 40px;
-  margin-top: 20px;
-`
-
-const Syncing = styled.div.attrs({ children: 'Syncing…' })`
-  position: absolute;
-  top: 15px;
-  right: 20px;
-`
 
 export default App
