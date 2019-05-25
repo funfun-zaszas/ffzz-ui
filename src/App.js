@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import { Main, TabBar } from '@aragon/ui'
+import { Main, SidePanel, TabBar } from '@aragon/ui'
 import PartyList from './components/PartyList'
 import CreateParty from './components/CreateParty'
 import CreateProgram from './components/CreateProgram'
@@ -10,7 +10,7 @@ import Web3 from 'web3'
 import "./App.css";
 
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
+  state = { storageValue: 0, web3: null, accounts: null, contract: null, createPartyPanel: false, selected: 0 };
 
   componentDidMount = async () => {
     try {
@@ -22,6 +22,7 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
+      console.log(SimpleStorageContract);
       const deployedNetwork = SimpleStorageContract.networks[networkId];
       console.log(deployedNetwork)
       const instance = new web3.eth.Contract(
@@ -42,7 +43,11 @@ class App extends Component {
   };
 
   setSelected = selectedTab => {
-    this.setState({ selected: selectedTab })
+    if (selectedTab == 1) {
+      this.setState({ createPartyPanel: true })
+    } else {
+      this.setState({ selected: selectedTab })
+    }
   }
 
   selectPage = pageNumber => {
@@ -64,7 +69,7 @@ class App extends Component {
     this.setState({ storageValue: response.toString() });
 
     // // Stores a given value, 5 by default.
-    let promise = await contract.methods.set(parseInt(response) + 1).send({ from: accounts[0] });
+    //let promise = await contract.methods.set(parseInt(response) + 1).send({ from: accounts[0] });
 
     // Get the value from the contract to prove it worked.
     response = await contract.methods.get().call();
@@ -85,6 +90,9 @@ class App extends Component {
           onChange={this.setSelected}
         />
         {this.selectPage(this.state.selected)}
+        <SidePanel title="Create party" opened={this.state.createPartyPanel}>
+          <CreateParty />
+        </SidePanel>
       </Main>
       );
   }

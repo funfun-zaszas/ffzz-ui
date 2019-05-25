@@ -14,7 +14,6 @@ function CreateParty(props) {
   return (
     <Layout>
       <Form onSubmit={handleSubmit}>
-        <Title size="xxlarge">Create Party</Title>
         <Field label="Label">
           <input
             required
