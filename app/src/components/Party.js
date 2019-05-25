@@ -9,34 +9,31 @@ import {
 import styled from 'styled-components'
 
 function Party(props) {
-  // const [opened, setOpened] = useState(false)
+  const [opened, setOpened] = useState(false)
   return (
-    <Card>
-      <Header>
-        <Icon />
-        <Text>{props.name}</Text>
-      </Header>
-      <Content>
-        <Proposal>
-          <p>{props.program[0].label}</p>
-          <p>{props.program[0].description}</p>
-        </Proposal>
+    <>
+      <Card>
+        <Header>
+          <Icon />
+          <Text>{props.name}</Text>
+        </Header>
+        <Content>
+          <Proposal>
+            <p>{props.program[0].label}</p>
+            <p>{props.program[0].description}</p>
+          </Proposal>
 
-        <Proposal>
-          <p>{props.program[1].label}</p>
-          <p>{props.program[1].description}</p>
-        </Proposal>
-        <Proposal>
-          <p>{props.program[2].label}</p>
-          <p>{props.program[2].description}</p>
-        </Proposal>
-      </Content>
-      {/* <Button onClick={() => setOpened(true)}>Open modal</Button> */}
-
-      {/* <Modal visible={opened} onClose={() => setOpened(false)}>
-        <Button onClick={() => setOpened(false)}>Close modal</Button>
-      </Modal> */}
-    </Card>
+          <Proposal>
+            <p>{props.program[1].label}</p>
+            <p>{props.program[1].description}</p>
+          </Proposal>
+          <Proposal>
+            <p>{props.program[2].label}</p>
+            <p>{props.program[2].description}</p>
+          </Proposal>
+        </Content>
+      </Card>
+    </>
   )
 }
 
