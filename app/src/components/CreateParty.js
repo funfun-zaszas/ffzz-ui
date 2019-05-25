@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, Text } from '@aragon/ui'
+import { Text, Field } from '@aragon/ui'
 import styled from 'styled-components'
 import useForm from '../useForm'
 
@@ -15,34 +15,39 @@ function CreateParty(props) {
     <Layout>
       <Form onSubmit={handleSubmit}>
         <Title size="xxlarge">Create Party</Title>
-        <TextInput
-          required
-          placeholder="Label"
-          name="label"
-          onChange={handleChange}
-          value={values.label}
-        />
-        <TextInput
-          required
-          placeholder="Emoji"
-          name="emoji"
-          onChange={handleChange}
-          value={values.emoji}
-        />
-        <TextInput
-          required
-          placeholder="Description"
-          name="description"
-          onChange={handleChange}
-          value={values.description}
-        />
-        <TextInput
-          required
-          placeholder="Fake name"
-          name="fakeName"
-          onChange={handleChange}
-          value={values.fakeName}
-        />
+        <Field label="Label">
+          <input
+            required
+            name="label"
+            onChange={handleChange}
+            value={values.label}
+          />
+        </Field>
+        <Field label="Emoji">
+          <input
+            required
+            name="emoji"
+            onChange={handleChange}
+            value={values.emoji}
+          />
+        </Field>
+        <Field label="Description">
+          <input
+            required
+            placeholder="Description"
+            name="description"
+            onChange={handleChange}
+            value={values.description}
+          />
+        </Field>
+        <Field label="Fake name">
+          <input
+            required
+            name="fakeName"
+            onChange={handleChange}
+            value={values.fakeName}
+          />
+        </Field>
         <input type="submit" value="Submit" />
       </Form>
     </Layout>

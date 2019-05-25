@@ -17,7 +17,6 @@ class App extends Component {
       web3Provider: window.ethereum ? new Web3(window.ethereum) : null,
     }
     console.log(this.state.web3Provider)
-
   }
 
   setSelected = selectedTab => {
