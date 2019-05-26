@@ -1,11 +1,15 @@
+@font-face { font-family: aragon-ui; src: url("https://ui.aragon.org/aragon-ui/32a3f11e7740ce58.woff2") format("woff2"), url("https://ui.aragon.org/aragon-ui/860b19d3e10736e7.woff") format("woff"); font-style: normal; font-weight: 600; }
+@font-face { font-family: aragon-ui; src: url("https://ui.aragon.org/aragon-ui/cf790334a5a6d45c.woff2") format("woff2"), url("https://ui.aragon.org/aragon-ui/fd48a701d84ebf69.woff") format("woff"); font-style: normal; font-weight: 400; }
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body * {
+  font-family: aragon-ui !important;
 }
 
 code {

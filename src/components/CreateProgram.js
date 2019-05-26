@@ -22,12 +22,16 @@ class CreateProgram extends Component {
     console.log('Creating a program...')
   }
 
+  countPromises() {
+    return Object.values(this.state).reduce((acc, e) => { return acc + (e ? 1 : 0)  }, 0)
+  }
+
   render() {
     return (
       <Layout>
         <Form onSubmit={this.handleSubmit}>
           <label>
-            <Checkbox
+            <PromiseCheckbox
               name="airQuality"
               checked={this.state.airQuality}
               onChange={event => this.handleChange(event, 'airQuality')}
@@ -35,14 +39,14 @@ class CreateProgram extends Component {
             Air quality
           </label>
           <label>
-            <Checkbox
+            <PromiseCheckbox
               name="premiumPrime"
               checked={this.state.riskPremium}
-              onChange={e => this.handleChange(e, 'premiumPrime')}
+              onChange={e => this.handleChange(e, 'riskPremium')}
             />
             Risk premium
           </label>
-          <Button mode="strong">Create program with {Object.values(this.state).reduce((acc, e) => { return acc + (e ? 1 : 0)  }, 0)} promises</Button>
+          <UpperButton mode="strong">Create program with {this.countPromises()} promise{this.countPromises() != 1 ? "s" : ""}</UpperButton>
         </Form>
       </Layout>
     )
@@ -57,10 +61,21 @@ const Layout = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  width: 100%;
+`
+const Input = styled.input`
+  width: 100%;
+  padding: 10px 5px;
+  margin-top: 4px;
+`
+const UpperButton = styled(Button)`
+  text-transform: uppercase;
+  font-weight: 600;
+  width: 100%;
 `
 
-const Title = styled(Text)`
-  text-align: center;
+const PromiseCheckbox = styled(Checkbox)`
+  margin-bottom: 20px;
 `
+
 export default CreateProgram

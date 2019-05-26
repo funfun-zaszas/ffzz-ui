@@ -15,7 +15,7 @@ function CreatePromise(props) {
     <Layout>
       <Form onSubmit={handleSubmit}>
         <Field label="Description">
-          <input
+          <Input
             required
             placeholder="Description"
             name="description"
@@ -24,7 +24,7 @@ function CreatePromise(props) {
           />
         </Field>
         <Field label="RADON data request">
-          <input
+          <Textarea
             required
             placeholder="{}"
             name="dataRequest"
@@ -32,7 +32,7 @@ function CreatePromise(props) {
             value={values.dataRequest}
           />
         </Field>
-        <Button mode="strong">Create promise</Button>
+        <UpperButton mode="strong">Create promise</UpperButton>
       </Form>
     </Layout>
   )
@@ -42,14 +42,26 @@ const Layout = styled.div`
   display: flex;
   justify-content: center;
 `
-
 const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  max-width: 400px;
+  width: 100%;
+`
+const Input = styled.input`
+  width: 100%;
+  padding: 10px 5px;
+  margin-top: 4px;
+`
+const Textarea = styled.textarea`
+  width: 100%;
+  min-height: 200px;
+  border: 1px solid #BBB;
+  border-radius: 4px;
+  padding: 10px 5px;
+  margin-top: 4px;
+`
+const UpperButton = styled(Button)`
+  text-transform: uppercase;
+  font-weight: 600;
+  width: 100%;
 `
 
-const Title = styled(Text)`
-  text-align: center;
-`
 export default CreatePromise

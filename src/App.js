@@ -19,7 +19,7 @@ class App extends Component {
     selected: 0,  
     createPartyPanel: false, 
     createPromisePanel: false, 
-    setProgramPanel: false
+    createProgramPanel: false
    };
 
   componentDidMount = async () => {
@@ -58,7 +58,7 @@ class App extends Component {
     } else if (selectedTab == 2) {
       this.setState({ createPromisePanel: true })
     } else if (selectedTab == 3) {
-      this.setState({ setProgramPanel: true })
+      this.setState({ createProgramPanel: true })
     } else {
       this.selectPage(0);
     }
@@ -68,7 +68,7 @@ class App extends Component {
     this.setState({
       createPartyPanel: false, 
       createPromisePanel: false, 
-      setProgramPanel: false
+      createProgramPanel: false
     })
   }
 
@@ -102,7 +102,7 @@ class App extends Component {
     return (
       <Main>
         <TabBar
-          items={['Parties', 'New party', 'New promise', 'Set program']}
+          items={['Parties', 'New party', 'New promise', 'Create program']}
           selected={this.selected}
           onChange={this.setSelected}
         />
@@ -113,7 +113,7 @@ class App extends Component {
         <SidePanel title="New promise" opened={this.state.createPromisePanel} onClose={this.closePanels}>
           <CreatePromise />
         </SidePanel>
-        <SidePanel title="Set program" opened={this.state.setProgramPanel} onClose={this.closePanels}>
+        <SidePanel title="Create program" opened={this.state.createProgramPanel} onClose={this.closePanels}>
           <CreateProgram />
         </SidePanel>
       </Main>

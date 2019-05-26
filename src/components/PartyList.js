@@ -90,9 +90,10 @@ const Layout = styled.div`
   box-sizing: border-box;
   display: grid;
   grid-auto-columns: auto;
-  grid-column-gap: 8px;
-  grid-row-gap: 8px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  grid-template-columns: repeat(auto-fill, 500px);
+  padding: 50px;
 `
 
 export default PartyList
