@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { Text, Checkbox } from '@aragon/ui'
+import { Button, Text, Checkbox } from '@aragon/ui'
 import styled from 'styled-components'
+import { __values } from 'tslib';
+
 
 class CreateProgram extends Component {
   state = {
     airQuality: false,
-    premiumPrime: false,
+    riskPremium: false,
   }
 
   handleChange(e, name) {
@@ -30,18 +32,17 @@ class CreateProgram extends Component {
               checked={this.state.airQuality}
               onChange={event => this.handleChange(event, 'airQuality')}
             />
-            Air Quality
+            Air quality
           </label>
-
           <label>
             <Checkbox
               name="premiumPrime"
-              checked={this.state.premiumPrime}
+              checked={this.state.riskPremium}
               onChange={e => this.handleChange(e, 'premiumPrime')}
             />
-            Premium Prime
+            Risk premium
           </label>
-          <input type="submit" value="Submit" />
+          <Button mode="strong">Create program with {Object.values(this.state).reduce((acc, e) => { return acc + (e ? 1 : 0)  }, 0)} promises</Button>
         </Form>
       </Layout>
     )

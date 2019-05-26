@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Field } from '@aragon/ui'
+import { Button, Text, Field } from '@aragon/ui'
 import styled from 'styled-components'
 import useForm from '../useForm'
 
@@ -32,7 +32,7 @@ function CreatePromise(props) {
             value={values.dataRequest}
           />
         </Field>
-        <input type="submit" value="Create promise" />
+        <Button mode="strong">Create promise</Button>
       </Form>
     </Layout>
   )

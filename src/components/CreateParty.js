@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, Field } from '@aragon/ui'
 import styled from 'styled-components'
 import useForm from '../useForm'
+import { Button } from '@aragon/ui'
 
 function CreateParty(props) {
   const { values, handleChange, handleSubmit } = useForm(createParty)
@@ -47,7 +48,7 @@ function CreateParty(props) {
             value={values.fakeName}
           />
         </Field>
-        <input type="submit" value="Submit" />
+        <Button mode="strong">Create {values.label} party</Button>
       </Form>
     </Layout>
   )
