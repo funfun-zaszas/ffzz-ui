@@ -24,7 +24,6 @@ class CreateProgram extends Component {
     return (
       <Layout>
         <Form onSubmit={this.handleSubmit}>
-          <Title size="xxlarge">Create Program</Title>
           <label>
             <Checkbox
               name="airQuality"

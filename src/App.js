@@ -4,13 +4,23 @@ import { Main, SidePanel, TabBar } from '@aragon/ui'
 import PartyList from './components/PartyList'
 import CreateParty from './components/CreateParty'
 import CreateProgram from './components/CreateProgram'
+import CreatePromise from './components/CreatePromise'
 import getWeb3 from "./utils/getWeb3";
 import Web3 from 'web3'
 
 import "./App.css";
 
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null, createPartyPanel: false, selected: 0 };
+  state = { 
+    storageValue: 0, 
+    web3: null, 
+    accounts: null, 
+    contract: null, 
+    selected: 0,  
+    createPartyPanel: false, 
+    createPromisePanel: false, 
+    setProgramPanel: false
+   };
 
   componentDidMount = async () => {
     try {
@@ -45,20 +55,27 @@ class App extends Component {
   setSelected = selectedTab => {
     if (selectedTab == 1) {
       this.setState({ createPartyPanel: true })
+    } else if (selectedTab == 2) {
+      this.setState({ createPromisePanel: true })
+    } else if (selectedTab == 3) {
+      this.setState({ setProgramPanel: true })
     } else {
-      this.setState({ selected: selectedTab })
+      this.selectPage(0);
     }
   }
 
+  closePanels = () => {
+    this.setState({
+      createPartyPanel: false, 
+      createPromisePanel: false, 
+      setProgramPanel: false
+    })
+  }
+
   selectPage = pageNumber => {
-    if (pageNumber === 0) {
-      return <PartyList />
-    } else if (pageNumber === 1) {
-      return <CreateParty />
-    } else if (pageNumber === 2) {
-      return <CreateProgram />
-    }
-}
+    return <PartyList />
+  }
+
   runExample = async () => {
     const { accounts, contract } = this.state;
 
@@ -85,13 +102,19 @@ class App extends Component {
     return (
       <Main>
         <TabBar
-          items={['Parties', 'Create Party', 'CreateProgram']}
+          items={['Parties', 'New party', 'New promise', 'Set program']}
           selected={this.selected}
           onChange={this.setSelected}
         />
         {this.selectPage(this.state.selected)}
-        <SidePanel title="Create party" opened={this.state.createPartyPanel}>
+        <SidePanel title="New party" opened={this.state.createPartyPanel} onClose={this.closePanels}>
           <CreateParty />
+        </SidePanel>
+        <SidePanel title="New promise" opened={this.state.createPromisePanel} onClose={this.closePanels}>
+          <CreateProgram />
+        </SidePanel>
+        <SidePanel title="Set program" opened={this.state.setProgramPanel} onClose={this.closePanels}>
+          <CreateProgram />
         </SidePanel>
       </Main>
       );
