@@ -7,8 +7,7 @@ function CreatePromise(props) {
   const { values, handleChange, handleSubmit } = useForm(createPromise)
 
   function createPromise() {
-    console.log('Creating a new promise...')
-    console.log(values)
+    props.handleSubmit(values)
   }
 
   return (
@@ -32,7 +31,7 @@ function CreatePromise(props) {
             value={values.dataRequest}
           />
         </Field>
-        <UpperButton mode="strong">Create promise</UpperButton>
+        <UpperButton type="submit" mode="strong">Create promise</UpperButton>
       </Form>
     </Layout>
   )

@@ -5,6 +5,7 @@ import styled from "styled-components";
 class PartyList extends Component {
 
   render() {
+    const parties = this.props.parties
     const proposals = [
       {
         label: "Air Quality",
@@ -19,29 +20,28 @@ class PartyList extends Component {
         description: "Reduce the risk premium below 80 points",
       },
     ];
-    const parties = [
-      {
-        name: "Rose",
-        emoji: "🌹",
-        program: [...proposals]
-      },
-      {
-        name: "Kaja",
-        emoji: "📦",
-        program: [...proposals]
-      },
-      {
-        name: "Jose",
-        emoji: "✉️",
-        program: [...proposals]
-      }
-    ];
-
-    const list = parties.map(party => {
+    // const parties = [
+    //   {
+    //     name: "Rose",
+    //     emoji: "🌹",
+    //     program: [...proposals]
+    //   },
+    //   {
+    //     name: "Kaja",
+    //     emoji: "📦",
+    //     program: [...proposals]
+    //   },
+    //   {
+    //     name: "Jose",
+    //     emoji: "✉️",
+    //     program: [...proposals]
+    //   }
+    // ];
+    const list = parties && parties.length ? parties.map(party => {
       return (
-        <Party emoji={party.emoji} program={party.program} key={party.name} name={party.name} />
+        <Party emoji={party.emoji} program={proposals} key={party.name} name={party.name} />
       );
-    });
+    }) : <div>Create a Party to be listed here</div>
 
     return <Layout>{list}</Layout>;
   }

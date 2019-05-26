@@ -24,7 +24,7 @@ function Party(props) {
           </Proposal>
           <Proposal>
             <strong>{props.program[1].label}</strong>
-            <p>{props.program[1].description}</p>
+            {/* <p>{props.program[1].description}</p> */}
           </Proposal>
           <Proposal>
             <strong>{props.program[2].label}</strong>

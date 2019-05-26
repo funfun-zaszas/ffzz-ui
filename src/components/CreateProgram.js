@@ -5,15 +5,25 @@ import { __values } from 'tslib';
 
 
 class CreateProgram extends Component {
-  state = {
-    airQuality: false,
-    riskPremium: false,
+  // state = {
+  //   airQuality: false,
+  //   riskPremium: false,
+  // }
+  constructor(props) {
+    super(props)
+    
+
+    const checked = props.proposals ? props.proposals.map(_ => false) : []
+    console.log("....................", checked)
+    this.state = {
+      checked
+    }
   }
 
-  handleChange(e, name) {
-    console.log('Inside handleChange', e, name)
-    const newState = {}
-    newState[`${name}`] = e
+  handleChange(e, name, index) {
+    const newState = {...this.state}
+    console.log("eeeeeeeeeeeeeeeeee", e)
+    newState["checked"][index] = e
     this.setState(newState)
   }
 
@@ -27,14 +37,29 @@ class CreateProgram extends Component {
   }
 
   render() {
+
+    const proposalList = this.props.proposals.map((proposal, index) => {
+      return (
+        <label>
+            <PromiseCheckbox
+              name={index}
+              checked={this.state.checked[index]}
+              onChange={event => this.handleChange(event, "checked", index)}
+            />
+          {proposal.description}
+          {/* <Text>{proposal.dataRequest}</Text> */}
+        </label>
+      )
+    })
+
     return (
       <Layout>
         <Form onSubmit={this.handleSubmit}>
-          <label>
+          {/* <label>
             <PromiseCheckbox
               name="airQuality"
               checked={this.state.airQuality}
-              onChange={event => this.handleChange(event, 'airQuality')}
+              onChange={event => this.handleChange(event,)}
             />
             Air quality
           </label>
@@ -45,7 +70,8 @@ class CreateProgram extends Component {
               onChange={e => this.handleChange(e, 'riskPremium')}
             />
             Risk premium
-          </label>
+          </label> */}
+          {proposalList}
           <UpperButton mode="strong">Create program with {this.countPromises()} promise{this.countPromises() != 1 ? "s" : ""}</UpperButton>
         </Form>
       </Layout>
