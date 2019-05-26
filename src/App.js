@@ -48,9 +48,16 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
+      
+      //const parties  = await this.listParties()
+      //console.log("PARTIES::", parties)
+
       this.setState({ web3, accounts, contract: instance}, () => {
         console.log(instance);
       });
+
+      const a = await this.listParties({web3, accounts, contract: instance})
+      
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -107,29 +114,32 @@ class App extends Component {
   };
 
   createParty = async (party) => {
+    console.log('herer')
     const response = await this.state.contract.methods.create_party(this.encodeBytes32(party.label), party.emoji, party.description, party.fakeName, party.dataRequest).send({ from: this.state.accounts[0] });
     //const response = await this.state.contract.methods.create_party(puf, "📦", "El partido de las cajas", "KAJA", "dr_kaja").send({ from: this.state.accounts[0] });
     console.log("Party creation:", response)
     
    }
 
-   listParties = async () => {
-    let parties = await this.state.contract.methods.list_parties().call();
-    const partiesList = parties.map(async addr => {
-      return await this.state.contract.methods.read_party(addr)
-    })
-    return Promise.all(partiesList)
-    
+   listParties = async (state) => {
+      if (state){
+        let parties = await state.contract.methods.list_parties().call();
+        return parties
+      } else {
+        let parties = await this.state.contract.methods.list_parties().call();
+        return parties
+      }
    }
 
-   encodeBytes32 = (text) => {
-      this.state.web3.utils.fromAscii(text).padEnd(66, '0');
-   }
+   encodeBytes32 = (text) => this.state.web3.utils.fromAscii(text).padEnd(66, '0');
+   
 
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
+
+    
     return (
       <Main>
         <TabBar
