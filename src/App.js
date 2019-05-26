@@ -107,7 +107,7 @@ class App extends Component {
   };
 
   createParty = async party => {
-    console.log("Creating Party");
+    console.log("Creating Party", party);
     const response = await this.state.contract.methods
       .create_party(
         this.encodeBytes32(party.label),
@@ -116,7 +116,7 @@ class App extends Component {
         party.fakeName,
         party.dataRequest
       )
-      .send({ from: this.state.accounts[0] });
+      .send({from: this.state.accounts[0]});
     //const response = await this.state.contract.methods.create_party(puf, "📦", "El partido de las cajas", "KAJA", "dr_kaja").send({ from: this.state.accounts[0] });
     console.log("Party creation:", response);
   };
@@ -124,15 +124,16 @@ class App extends Component {
   readProposals = async state => {
     const auxState = state ? state : this.state;
     const proposalIds = await auxState.contract.methods.read_proposals().call();
-
-    let results = [];
-    let proposal;
-    for (let i = 0; i < proposalIds.length; i++) {
-      proposal = await auxState.contract.methods.read_proposal(proposalIds[i]).call();
-      const proposalNormalized = {description: proposal[0], dataRequest: proposal[1]}
-      results.push(proposalNormalized);
-    }
-    return results 
+    if (proposalIds) {
+      let results = [];
+      let proposal;
+      for (let i = 0; i < proposalIds.length; i++) {
+        proposal = await auxState.contract.methods.read_proposal(proposalIds[i]).call();
+        const proposalNormalized = {description: proposal[0], dataRequest: proposal[1]}
+        results.push(proposalNormalized);
+      }
+      return results
+    } else return []
   };
 
   createPromise= async (promise) => {
@@ -143,16 +144,20 @@ class App extends Component {
   listParties = async state => {
     const auxState = state ? state : this.state;
     const parties = await auxState.contract.methods.list_parties().call();
-    let results = [];
-    let party;
-    for (let i = 0; i < parties.length; i++) {
-      party = await auxState.contract.methods.read_party(parties[i]).call();
-      party.program = await auxState.contract.methods
-        .read_program(parties[i])
-        .call();
-      results.push(party);
+    if (parties) {
+      let results = [];
+      let party;
+      for (let i = 0; i < parties.length; i++) {
+        party = await auxState.contract.methods.read_party(parties[i]).call();
+        party.program = await auxState.contract.methods
+          .read_program(parties[i])
+          .call();
+        results.push(party);
+      }
+      return results;
+    } else {
+      return []
     }
-    return results;
   };
 
   encodeBytes32 = text => this.state.web3.utils.fromAscii(text).padEnd(66, "0");

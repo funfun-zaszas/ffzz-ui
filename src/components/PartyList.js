@@ -5,6 +5,7 @@ import styled from "styled-components";
 class PartyList extends Component {
 
   render() {
+    console.log("PARTIES:",this.props.parties)
     const parties = this.props.parties
     const proposals = [
       {
@@ -37,9 +38,10 @@ class PartyList extends Component {
     //     program: [...proposals]
     //   }
     // ];
-    const list = parties && parties.length ? parties.map(party => {
+    const list = parties && parties.length ? parties.map((party, index) => {
+      console.log("PARTY", party)
       return (
-        <Party emoji={party.emoji} program={proposals} key={party.name} name={party.name} />
+        <Party emoji={party.emoji} program={proposals} key={party.fake_name+index} name={party.fake_name} />
       );
     }) : <div>Create a Party to be listed here</div>
 

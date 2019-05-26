@@ -14,7 +14,6 @@ class CreateProgram extends Component {
     
 
     const checked = props.proposals ? props.proposals.map(_ => false) : []
-    console.log("....................", checked)
     this.state = {
       checked
     }
@@ -37,8 +36,8 @@ class CreateProgram extends Component {
   }
 
   render() {
-
-    const proposalList = this.props.proposals.map((proposal, index) => {
+    const defaultValue = (<Text>No proposals yet</Text>)
+    const proposalList = (this.props.proposals  ) ? this.props.proposals.map((proposal, index) => {
       return (
         <label>
             <PromiseCheckbox
@@ -50,7 +49,7 @@ class CreateProgram extends Component {
           {/* <Text>{proposal.dataRequest}</Text> */}
         </label>
       )
-    })
+    }) : defaultValue
 
     return (
       <Layout>
@@ -72,7 +71,7 @@ class CreateProgram extends Component {
             Risk premium
           </label> */}
           {proposalList}
-          <UpperButton mode="strong">Create program with {this.countPromises()} promise{this.countPromises() != 1 ? "s" : ""}</UpperButton>
+          <UpperButton mode="strong">Create program</UpperButton>
         </Form>
       </Layout>
     )
