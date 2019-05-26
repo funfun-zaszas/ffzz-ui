@@ -7,29 +7,13 @@ function CreatePromise(props) {
   const { values, handleChange, handleSubmit } = useForm(createPromise)
 
   function createPromise() {
-    console.log('Creating a promise...')
+    console.log('Creating a new promise...')
     console.log(values)
   }
 
   return (
     <Layout>
       <Form onSubmit={handleSubmit}>
-        <Field label="Label">
-          <input
-            required
-            name="label"
-            onChange={handleChange}
-            value={values.label}
-          />
-        </Field>
-        <Field label="Emoji">
-          <input
-            required
-            name="emoji"
-            onChange={handleChange}
-            value={values.emoji}
-          />
-        </Field>
         <Field label="Description">
           <input
             required
@@ -39,15 +23,16 @@ function CreatePromise(props) {
             value={values.description}
           />
         </Field>
-        <Field label="Fake name">
+        <Field label="RADON data request">
           <input
             required
-            name="fakeName"
+            placeholder="{}"
+            name="dataRequest"
             onChange={handleChange}
-            value={values.fakeName}
+            value={values.dataRequest}
           />
         </Field>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Create promise" />
       </Form>
     </Layout>
   )

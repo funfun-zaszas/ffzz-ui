@@ -111,7 +111,7 @@ class App extends Component {
           <CreateParty />
         </SidePanel>
         <SidePanel title="New promise" opened={this.state.createPromisePanel} onClose={this.closePanels}>
-          <CreateProgram />
+          <CreatePromise />
         </SidePanel>
         <SidePanel title="Set program" opened={this.state.setProgramPanel} onClose={this.closePanels}>
           <CreateProgram />
