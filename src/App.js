@@ -57,7 +57,8 @@ class App extends Component {
       });
 
       const a = await this.listParties({web3, accounts, contract: instance})
-      
+      console.log("aaaaa", a)
+
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -114,7 +115,6 @@ class App extends Component {
   };
 
   createParty = async (party) => {
-    console.log('herer')
     const response = await this.state.contract.methods.create_party(this.encodeBytes32(party.label), party.emoji, party.description, party.fakeName, party.dataRequest).send({ from: this.state.accounts[0] });
     //const response = await this.state.contract.methods.create_party(puf, "📦", "El partido de las cajas", "KAJA", "dr_kaja").send({ from: this.state.accounts[0] });
     console.log("Party creation:", response)
@@ -122,13 +122,13 @@ class App extends Component {
    }
 
    listParties = async (state) => {
-      if (state){
-        let parties = await state.contract.methods.list_parties().call();
-        return parties
+    let parties;  
+    if (state){
+        parties = await state.contract.methods.list_parties().call();
       } else {
-        let parties = await this.state.contract.methods.list_parties().call();
-        return parties
+        parties = await this.state.contract.methods.list_parties().call();
       }
+      console.log("parties", parties)
    }
 
    encodeBytes32 = (text) => this.state.web3.utils.fromAscii(text).padEnd(66, '0');

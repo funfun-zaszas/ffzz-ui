@@ -14,8 +14,8 @@ function Party(props) {
     <>
       <Card>
         <Header>
-          <Icon />
-          <Text>{props.name}</Text>
+          {/* <Icon /> */}
+          <Text>{props.emoji} {props.name}</Text>
         </Header>
         <Content>
           <Proposal>

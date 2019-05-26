@@ -6,11 +6,7 @@ import { Button } from '@aragon/ui'
 
 function CreateParty(props) {
   const { values, handleChange, handleSubmit } = useForm(createParty)
-
   function createParty() {
-    console.log('Creating a party...')
-    console.log("...", values)
-    
     props.handleSubmit(values)
   }
 
@@ -58,7 +54,7 @@ function CreateParty(props) {
             value={values.dataRequest}
           />
         </Field>
-        <UpperButton mode="strong">Create {values.label} party</UpperButton>
+        <UpperButton type="submit" mode="strong">Create {values.label} party</UpperButton>
       </Form>
     </Layout>
   )
