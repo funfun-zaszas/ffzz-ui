@@ -9,7 +9,9 @@ function CreateParty(props) {
 
   function createParty() {
     console.log('Creating a party...')
-    console.log(values)
+    console.log("...", values)
+    
+    props.handleSubmit(values)
   }
 
   return (

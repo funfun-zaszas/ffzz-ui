@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import SimpleStorageContract from "./contracts/SimpleStorage.json"
+import Ethpain from "./contracts/Ethpain.json"
 import { Main, SidePanel, TabBar } from '@aragon/ui'
 import PartyList from './components/PartyList'
 import CreateParty from './components/CreateParty'
@@ -32,17 +33,24 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      console.log(SimpleStorageContract);
-      const deployedNetwork = SimpleStorageContract.networks[networkId];
-      console.log(deployedNetwork)
+      const deployedNetwork = Ethpain.networks[networkId];
       const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
+        Ethpain.abi,
         deployedNetwork && deployedNetwork.address,
       );
+      console.log(Ethpain.abi);
+
+      // const ethpain = new web3.eth.Contract(
+      //   Ethpain.abi,
+      //   deployedNetwork && deployedNetwork.address,
+      // );
+      // console.log(ethpain);
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
+      this.setState({ web3, accounts, contract: instance}, () => {
+        console.log(instance);
+      });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -52,6 +60,9 @@ class App extends Component {
     }
   };
 
+  
+
+  
   setSelected = selectedTab => {
     if (selectedTab == 1) {
       this.setState({ createPartyPanel: true })
@@ -77,23 +88,43 @@ class App extends Component {
   }
 
   runExample = async () => {
-    const { accounts, contract } = this.state;
+    // const { accounts, contract } = this.state;
 
-    // Get the value from the contract to prove it worked.
-    let response = await contract.methods.get().call();
+    // // Get the value from the contract to prove it worked.
+    // let response = await contract.methods.get().call();
 
-    // Update state with the result.
-    this.setState({ storageValue: response.toString() });
+    // // Update state with the result.
+    // this.setState({ storageValue: response.toString() });
 
-    // // Stores a given value, 5 by default.
-    //let promise = await contract.methods.set(parseInt(response) + 1).send({ from: accounts[0] });
+    // // // Stores a given value, 5 by default.
+    // //let promise = await contract.methods.set(parseInt(response) + 1).send({ from: accounts[0] });
 
-    // Get the value from the contract to prove it worked.
-    response = await contract.methods.get().call();
+    // // Get the value from the contract to prove it worked.
+    // response = await contract.methods.get().call();
 
-    // Update state with the result.
-    this.setState({ storageValue: response.toString() });
+    // // Update state with the result.
+    // this.setState({ storageValue: response.toString() });
   };
+
+  createParty = async (party) => {
+    const response = await this.state.contract.methods.create_party(this.encodeBytes32(party.label), party.emoji, party.description, party.fakeName, party.dataRequest).send({ from: this.state.accounts[0] });
+    //const response = await this.state.contract.methods.create_party(puf, "📦", "El partido de las cajas", "KAJA", "dr_kaja").send({ from: this.state.accounts[0] });
+    console.log("Party creation:", response)
+    
+   }
+
+   listParties = async () => {
+    let parties = await this.state.contract.methods.list_parties().call();
+    const partiesList = parties.map(async addr => {
+      return await this.state.contract.methods.read_party(addr)
+    })
+    return Promise.all(partiesList)
+    
+   }
+
+   encodeBytes32 = (text) => {
+      this.state.web3.utils.fromAscii(text).padEnd(66, '0');
+   }
 
   render() {
     if (!this.state.web3) {
@@ -108,7 +139,7 @@ class App extends Component {
         />
         {this.selectPage(this.state.selected)}
         <SidePanel title="New party" opened={this.state.createPartyPanel} onClose={this.closePanels}>
-          <CreateParty />
+          <CreateParty handleSubmit={this.createParty}/>
         </SidePanel>
         <SidePanel title="New promise" opened={this.state.createPromisePanel} onClose={this.closePanels}>
           <CreatePromise />
